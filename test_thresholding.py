@@ -4,10 +4,10 @@ import numpy
 
 title_trackbar_c = 'C constant for threshold'
 title_trackbar_block_size = 'Block size:'
-title_window = 'Morphology Transformations Demo'
+title_window = 'Thresholding Demo'
 
 
-def threshold_operations(val):
+def threshold_operations(_):
     c = cv2.getTrackbarPos(title_trackbar_c, title_window)
     block_size = cv2.getTrackbarPos(title_trackbar_block_size, title_window)
     print("[c, block_size] = [{c}, {block_size}]".format(c=c, block_size=2*block_size + 1))

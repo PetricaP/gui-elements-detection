@@ -1,88 +1,99 @@
 import argparse
 import logging
+import os
 import sys
-import time
 
 import cv2
 import numpy
-import os
 
 FORMAT = '[%(asctime)s] [%(levelname)s] : %(message)s'
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=FORMAT)
 WIDTH = 800
 
+WINDOW_TITLE = "Test contour approximation"
+APPROX_TRACKBAR_TITLE = 'Find contours approximation type\n' \
+                        '0 = APPROX_NONE\n' \
+                        '1 = APPROX_SIMPLE\n' \
+                        '2 = APPROX_TC89_L1\n' \
+                        '3 = APPROX_TC89_KCOS'
+COEF_TRACKBAR_TITLE = "Polygon approximation coefficient"
+AREA_TRACKBAR_TITLE = 'Area threshold'
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('image_path', type=str, help='Path to image to analyze')
-    parser.add_argument('--processing_type', nargs=1, help='Type of processing to do on image (thresh / canny)')
-    parser.add_argument('--width', help='Resize image to the specified width', type=int, default=WIDTH)
-    args = parser.parse_args()
 
-    if not os.path.exists(args.image_path):
-        print('path not exist')
+approximations = {
+    0: cv2.CHAIN_APPROX_NONE,
+    1: cv2.CHAIN_APPROX_SIMPLE,
+    2: cv2.CHAIN_APPROX_TC89_L1,
+    3: cv2.CHAIN_APPROX_TC89_KCOS
+}
 
-    image = cv2.imread(args.image_path)
 
-    w, h = image.shape[0], image.shape[1]
+approx_to_string = {
+    cv2.CHAIN_APPROX_NONE: 'CHAIN_APPROX_NONE',
+    cv2.CHAIN_APPROX_SIMPLE: 'CHAIN_APPROX_SIMPLE',
+    cv2.CHAIN_APPROX_TC89_L1: 'CHAIN_APPROX_TC89_L1',
+    cv2.CHAIN_APPROX_TC89_KCOS: 'CHAIN_APPROX_TC89_KCOS'
+}
 
-    image = cv2.resize(image, (args.width, int(w / h * args.width)))
 
-    logging.info('Copying original image')
-    original = image.copy()
+def operation(_):
+    processed = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
-    logging.info('Converting to gray')
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = original.copy()
 
-    if args.processing_type and args.processing_type[0] == 'canny':
-        logging.info('Applying canny processing')
-        processed = cv2.Canny(gray_image, 60, 120)
-    else:
-        logging.info('Applying adaptive threshold')
-        processed = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    approximation_type_n = cv2.getTrackbarPos(APPROX_TRACKBAR_TITLE, WINDOW_TITLE)
+    approximation_type = approximations[approximation_type_n]
 
-    logging.info('Finding contours')
-    t = time.perf_counter()
-    contours, _ = cv2.findContours(processed, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    print(f'Finding contours in: {time.perf_counter() - t}')
+    logging.info(f'Finding contours with approximation type: {approx_to_string[approximation_type]}')
+    contours, _ = cv2.findContours(processed, cv2.RETR_LIST, approximation_type)
 
+    coef = cv2.getTrackbarPos(COEF_TRACKBAR_TITLE, WINDOW_TITLE) / 100 * 0.1
+    logging.info(f'Approximating polygons with coef: {coef}')
+
+    area_thresh = cv2.getTrackbarPos(AREA_TRACKBAR_TITLE, WINDOW_TITLE)
+    logging.info(f'Area threshold: {area_thresh}')
     for contour in contours:
-        logging.debug('Approximating contour {}'.format(contour))
-        t = time.perf_counter()
-        approx = cv2.approxPolyDP(contour, 0.02 * cv2.arcLength(contour, True), True)
-        print(f'Approximating contour in: {time.perf_counter() - t}')
+        approx = cv2.approxPolyDP(contour, coef * cv2.arcLength(contour, True), True)
 
         if len(approx) == 4:
-
             try:
-                if cv2.contourArea(approx) > 80:
+                if cv2.contourArea(approx) > area_thresh:
                     x, y, w, h = cv2.boundingRect(approx)
                     rect_points = [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
 
                     rect_contour = numpy.array(rect_points).reshape((-1, 1, 2)).astype(numpy.int32)
 
-                    logging.info('Drawing bounding rect for {}'.format(str(approx).replace('\n', '')))
                     cv2.drawContours(image, [rect_contour], 0, (0, 0, 255), 2)
-
-                    color_threshold = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
-                    cv2.drawContours(color_threshold, [rect_contour], 0, (0, 0, 255), 2)
-
-                    images = numpy.hstack((original, color_threshold, image))
-                    cv2.imshow('Shapes', images)
-
-                    cv2.waitKey(500)
-                    cv2.destroyAllWindows()
-                else:
-                    logging.debug('Skipping too small image')
             except Exception as e:
                 logging.exception('Error when trying to draw contour {}'.format(e))
 
-    images = numpy.hstack((original, cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR), image))
+    images = numpy.hstack((original, image))
     cv2.imshow('Shapes', images)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
-    main()
+parser = argparse.ArgumentParser()
+parser.add_argument('image_path', type=str, help='Path to image to analyze')
+args = parser.parse_args()
+
+if not os.path.isfile(args.image_path):
+    print('Specified image does not exist.')
+    exit(1)
+
+original = cv2.imread(args.image_path)
+
+logging.info('Converting to gray')
+gray_image = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+
+cv2.namedWindow(WINDOW_TITLE)
+cv2.createTrackbar(COEF_TRACKBAR_TITLE, WINDOW_TITLE, 0, 100, operation)
+cv2.createTrackbar(APPROX_TRACKBAR_TITLE, WINDOW_TITLE, 0, 3, operation)
+cv2.createTrackbar(AREA_TRACKBAR_TITLE, WINDOW_TITLE, 0, 20000, operation)
+
+
+operation(0)
+
+cv2.waitKey()
+cv2.destroyAllWindows()
