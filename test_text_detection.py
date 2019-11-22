@@ -29,7 +29,6 @@ def overlap(rect1, rect2):
     if d1 <= 0 or d2 <= 0:
         return 0
 
-
     a1 = (x12 - x11) * (y12 - y11)
     a2 = (x22 - x21) * (y22 - y21)
 
@@ -156,20 +155,26 @@ def join_overlapping_rectangles(results):
     return joined
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('model_path', help='path to east model pb file')
-    parser.add_argument('image_path', help='image to analyze')
-    parser.add_argument('--join_overlapping', action='store_true', help='join overlapping text rectangles')
-    parser.add_argument('--min_confidence', type=float, help='minimum confidence for text position', default=0.8)
-    parser.add_argument('--padding', type=float, help='padding to add when looking for text', default=0.1)
-    parser.add_argument('--draw_text', action='store_true', help='Draw the detected text near the boxes.')
-    parser.add_argument('--apply_ocr', action='store_true', help="Don't apply ocr, just draw the rects")
-    args = parser.parse_args()
+# global variables used in text_detection_operation
+net, height, width, original_image, min_confidence, args, padding = 0, 0, 0, 0, 0, 0, 0
 
-    original_image = cv2.imread(args.image_path)
-    height, width = original_image.shape[:2]
+title_trackbar_R = 'R constant for blobFromImage'
+title_trackbar_G = 'G constant for blobFromImage'
+title_trackbar_B = 'B constant for blobFromImage'
+title_trackbar_min_confidence = 'Min Confidence'
+title_trackbar_padding = 'Padding'
+title_window = 'Text Detection Demo'
 
+
+def text_detection_operation(_):
+    global net, height, width, original_image, min_confidence, args, padding
+    blob_constant_R = cv2.getTrackbarPos(title_trackbar_R, title_window) / 100
+    blob_constant_G = cv2.getTrackbarPos(title_trackbar_G, title_window) / 100
+    blob_constant_B = cv2.getTrackbarPos(title_trackbar_B, title_window) / 100
+    min_confidence = cv2.getTrackbarPos(title_trackbar_min_confidence, title_window) / 100
+    padding = cv2.getTrackbarPos(title_trackbar_padding, title_window) / 100
+
+    copy_original_image = original_image.copy()
     with timer('Read network'):
         net = cv2.dnn.readNet(args.model_path)
 
@@ -178,10 +183,10 @@ def main():
 
     rel_x, rel_y = width / new_width, height / new_height
 
-    image = cv2.resize(original_image, (new_width, new_height))
+    image = cv2.resize(copy_original_image, (new_width, new_height))
 
     with timer('Blob from image'):
-        blob = cv2.dnn.blobFromImage(image, 1.0, (new_width, new_height), (123.68, 116.78, 103.94), True, False)
+        blob = cv2.dnn.blobFromImage(image, 1.0, (new_width, new_height), (blob_constant_R, blob_constant_G, blob_constant_B), True, False)
 
     output_layers = ['feature_fusion/Conv_7/Sigmoid', 'feature_fusion/concat_3']
 
@@ -191,13 +196,13 @@ def main():
         scores, geometry = net.forward(output_layers)
 
     with timer('Decode predictions'):
-        (rects, confidences) = decode_predictions(scores, geometry, args.min_confidence)
+        (rects, confidences) = decode_predictions(scores, geometry, min_confidence)
 
     with timer('Non max suppression'):
         boxes = imutils.object_detection.non_max_suppression(numpy.array(rects), probs=confidences)
 
     with timer('Getting text rects'):
-        results = get_text_rects(args.padding, boxes, height, width, rel_x, rel_y)
+        results = get_text_rects(padding, boxes, height, width, rel_x, rel_y)
 
         results = sorted(results, key=lambda r: r[0])
 
@@ -207,7 +212,7 @@ def main():
 
     with timer('Drawing rectangles'):
         for start_x, start_y, end_x, end_y in results:
-            cv2.rectangle(original_image, (start_x, start_y), (end_x, end_y), (0, 0, 255), 2)
+            cv2.rectangle(copy_original_image, (start_x, start_y), (end_x, end_y), (0, 0, 255), 2)
 
     if args.apply_ocr:
         with timer('Apply OCR on rects'):
@@ -218,13 +223,41 @@ def main():
         if args.draw_text:
             with timer('Drawing text'):
                 for ((start_x, start_y, end_x, end_y), text) in results:
-                    cv2.putText(original_image, text, (start_x, start_y - 20),
+                    cv2.putText(copy_original_image, text, (start_x, start_y - 20),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
 
         for (_, text) in results:
             logging.info(text)
+    logging.info(f'Finished Text Detection \n')
+    cv2.imshow("Text Detection", copy_original_image)
 
-    cv2.imshow("Text Detection", original_image)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('model_path', help='path to east model pb file')
+    parser.add_argument('image_path', help='image to analyze')
+    parser.add_argument('--join_overlapping', action='store_true', help='join overlapping text rectangles')
+    parser.add_argument('--min_confidence', type=float, help='minimum confidence for text position', default=0.8)
+    parser.add_argument('--padding', type=float, help='padding to add when looking for text', default=0.1)
+    parser.add_argument('--draw_text', action='store_true', help='Draw the detected text near the boxes.')
+    parser.add_argument('--apply_ocr', action='store_true', help="Don't apply ocr, just draw the rects")
+    global args, original_image, height, width, net, min_confidence, padding
+    args = parser.parse_args()
+    original_image = cv2.imread(args.image_path)
+    height, width = original_image.shape[:2]
+    min_confidence = args.min_confidence
+    padding = args.padding
+    #(Blob RGB) = (123.68, 116.78, 103.94)
+    cv2.namedWindow(title_window)
+    cv2.createTrackbar(title_trackbar_R, title_window, 123_68, 25500, text_detection_operation)
+    cv2.createTrackbar(title_trackbar_G, title_window, 116_78, 25500, text_detection_operation)
+    cv2.createTrackbar(title_trackbar_B, title_window, 103_94, 25500, text_detection_operation)
+    cv2.createTrackbar(title_trackbar_min_confidence, title_window, 80, 100, text_detection_operation)
+    cv2.createTrackbar(title_trackbar_padding, title_window, 10, 100, text_detection_operation)
+
+    text_detection_operation(0)
+
     cv2.waitKey(0)
 
 
