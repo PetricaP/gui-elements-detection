@@ -18,7 +18,6 @@ def overlap(rect1, rect2):
     y11 = rect1[1]
     x12 = rect1[2]
     y12 = rect1[3]
-
     x21 = rect2[0]
     y21 = rect2[1]
     x22 = rect2[2]
@@ -29,6 +28,7 @@ def overlap(rect1, rect2):
 
     if d1 <= 0 or d2 <= 0:
         return 0
+
 
     a1 = (x12 - x11) * (y12 - y11)
     a2 = (x22 - x21) * (y22 - y21)

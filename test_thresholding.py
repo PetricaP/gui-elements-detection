@@ -11,8 +11,9 @@ def threshold_operations(_):
     c = cv2.getTrackbarPos(title_trackbar_c, title_window)
     block_size = cv2.getTrackbarPos(title_trackbar_block_size, title_window)
     print("[c, block_size] = [{c}, {block_size}]".format(c=c, block_size=2*block_size + 1))
-    dst = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 2*block_size+1, c)
-    images = numpy.hstack((gray, dst))
+    dst = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 2 * block_size+1, c)
+    dst2 = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 2 * block_size + 1, c)
+    images = numpy.hstack((gray, dst, dst2))
     cv2.imshow(title_window, images)
 
 
