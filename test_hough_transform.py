@@ -12,6 +12,7 @@ title_window = 'HoughCircles Demo'
 src_org = 0
 gray_org = 0
 
+
 def houghcircles_operation(val):
     src = src_org.copy()
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)

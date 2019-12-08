@@ -5,6 +5,8 @@ import sys
 
 import cv2
 import numpy
+from detection import detect_rectangles
+
 
 FORMAT = '[%(asctime)s] [%(levelname)s] : %(message)s'
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=FORMAT)
@@ -45,27 +47,20 @@ def operation(_):
     approximation_type = approximations[approximation_type_n]
 
     logging.info(f'Finding contours with approximation type: {approx_to_string[approximation_type]}')
-    contours, _ = cv2.findContours(processed, cv2.RETR_LIST, approximation_type)
 
     coef = cv2.getTrackbarPos(COEF_TRACKBAR_TITLE, WINDOW_TITLE) / 100 * 0.1
     logging.info(f'Approximating polygons with coef: {coef}')
 
     area_thresh = cv2.getTrackbarPos(AREA_TRACKBAR_TITLE, WINDOW_TITLE)
     logging.info(f'Area threshold: {area_thresh}')
-    for contour in contours:
-        approx = cv2.approxPolyDP(contour, coef * cv2.arcLength(contour, True), True)
 
-        if len(approx) == 4:
-            try:
-                if cv2.contourArea(approx) > area_thresh:
-                    x, y, w, h = cv2.boundingRect(approx)
-                    rect_points = [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
+    results = detect_rectangles(processed, area_thresh, coef)
 
-                    rect_contour = numpy.array(rect_points).reshape((-1, 1, 2)).astype(numpy.int32)
+    for r in results:
+        rect_points = [(r.x, r.y), (r.x + r.w, r.y), (r.x + r.w, r.y + r.h), (r.x, r.y + r.h)]
+        rect_contour = numpy.array(rect_points).reshape((-1, 1, 2)).astype(numpy.int32)
 
-                    cv2.drawContours(image, [rect_contour], 0, (0, 0, 255), 2)
-            except Exception as e:
-                logging.exception('Error when trying to draw contour {}'.format(e))
+        cv2.drawContours(image, [rect_contour], 0, (0, 0, 255), 2)
 
     images = numpy.hstack((original, image))
     cv2.imshow('Shapes', images)
@@ -91,7 +86,6 @@ cv2.namedWindow(WINDOW_TITLE)
 cv2.createTrackbar(COEF_TRACKBAR_TITLE, WINDOW_TITLE, 0, 100, operation)
 cv2.createTrackbar(APPROX_TRACKBAR_TITLE, WINDOW_TITLE, 0, 3, operation)
 cv2.createTrackbar(AREA_TRACKBAR_TITLE, WINDOW_TITLE, 0, 20000, operation)
-
 
 operation(0)
 
