@@ -9,7 +9,7 @@ from utils import timer, join, overlap, circle, rectangle, point
 
 
 def detect_circles(gray_image, min_radius, max_radius, param1, param2):
-    circles = cv2.HoughCircles(gray_image, cv2.HOUGH_GRADIENT, 1, 1, param1=param1, param2=param2,
+    circles = cv2.HoughCircles(gray_image, cv2.HOUGH_GRADIENT, 1, min_radius, param1=param1, param2=param2,
                                minRadius=min_radius, maxRadius=max_radius)
 
     results = []
@@ -113,24 +113,34 @@ def decode_predictions(scores, geometry, min_confidence):
     return rects, confidences
 
 
-def get_text_rects(join_padding, boxes, orig_height, orig_width, rel_x, rel_y):
-    results = []
-    padding_x, padding_y = join_padding
-
+def rescale_text_rects(boxes, rel_x, rel_y):
     # We need to rescale all the boxes with text to have the coordinates of the original image
+    results = []
     for (start_x, start_y, end_x, end_y) in boxes:
         start_x = int(start_x * rel_x)
         start_y = int(start_y * rel_y)
         end_x = int(end_x * rel_x)
         end_y = int(end_y * rel_y)
 
-        dx = int((end_x - start_x) * padding_x)
-        dy = int((end_y - start_y) * padding_y)
+        results.append(rectangle(start_x, start_y, end_x - start_x, end_y - start_y))
+    return results
+
+
+def apply_padding(boxes, join_padding, original_dimensions):
+    results = []
+    padding_x, padding_y = join_padding
+    orig_width, orig_height = original_dimensions
+
+    # We need to rescale all the boxes with text to have the coordinates of the original image
+    for (start_x, start_y, w, h) in boxes:
+        dx = int(w * padding_x)
+        dy = int(h * padding_y)
 
         start_x = max(0, start_x - dx)
         start_y = max(0, start_y - dy)
-        end_x = min(orig_width, end_x + dx)
-        end_y = min(orig_height, end_y + dy)
+
+        end_x = min(orig_width, start_x + w + dx)
+        end_y = min(orig_height, start_y + h + dy)
 
         results.append(rectangle(start_x, start_y, end_x - start_x, end_y - start_y))
     return results
@@ -169,33 +179,48 @@ def detect_text(image, model_path, min_confidence, join_padding, join_overlappin
     with timer('Read network'):
         net = cv2.dnn.readNet(model_path)
 
-    # Image dimensions must be multiples of 32 for this to work
-    new_height, new_width = height - height % 32, width - width % 32
+    image, rel_x, rel_y = resize_image_for_net(image, height, width)
+    new_height, new_width = image.shape[:2]
 
-    rel_x, rel_y = width / new_width, height / new_height
+    boxes = apply_east_text_detection(image, min_confidence, net, new_height, new_width)
 
-    image = cv2.resize(image, (new_width, new_height))
-    with timer('Blob from image'):
-        blob = cv2.dnn.blobFromImage(image, 1.0, (new_width, new_height), (123.68, 116.78, 103.94), True, False)
+    resize_results = rescale_text_rects(boxes, rel_x, rel_y)
+    results = apply_padding(resize_results, join_padding, (new_width, new_height))
 
-    output_layers = ['feature_fusion/Conv_7/Sigmoid', 'feature_fusion/concat_3']
-    net.setInput(blob)
-
-    with timer('Forward layers to net'):
-        scores, geometry = net.forward(output_layers)
-
-    with timer('Decode predictions'):
-        (rects, confidences) = decode_predictions(scores, geometry, min_confidence)
-
-    with timer('Non max suppression'):
-        boxes = imutils.object_detection.non_max_suppression(np.array(rects), probs=confidences)
-
-    with timer('Getting text rects'):
-        results = get_text_rects(join_padding, boxes, height, width, rel_x, rel_y)
-
-        results = sorted(results, key=lambda r: r.x)
+    results = sorted(results, key=lambda r: r.x)
 
     if join_overlapping:
-        with timer('Join overlapping rectangles'):
-            results = join_overlapping_rectangles(results)
+        results = join_overlapping_rectangles(results)
     return results
+
+
+def apply_east_text_detection(image, min_confidence, net, new_height, new_width):
+    with timer('Blob from image'):
+        blob = cv2.dnn.blobFromImage(image, 1.0, (new_width, new_height), (123.68, 116.78, 103.94), True, False)
+    output_layers = ['feature_fusion/Conv_7/Sigmoid', 'feature_fusion/concat_3']
+    net.setInput(blob)
+    with timer('Forward layers to net'):
+        scores, geometry = net.forward(output_layers)
+    with timer('Decode predictions'):
+        (rects, confidences) = decode_predictions(scores, geometry, min_confidence)
+    with timer('Non max suppression'):
+        boxes = imutils.object_detection.non_max_suppression(np.array(rects), probs=confidences)
+    return boxes
+
+
+def resize_image_for_net(image, height, width):
+    # Image dimensions must be multiples of 32 for this to work
+    new_height, new_width = height - height % 32, width - width % 32
+    rel_x, rel_y = width / new_width, height / new_height
+    image = cv2.resize(image, (new_width, new_height))
+
+    return image, rel_x, rel_y
+
+
+def is_checked(image_rect, wanted_ratio=0.7):
+    _, thresh = cv2.threshold(image_rect, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    white = cv2.countNonZero(thresh)
+    total = thresh.shape[0] * thresh.shape[1]
+    ratio = white / total
+    checked = ratio < wanted_ratio
+    return checked

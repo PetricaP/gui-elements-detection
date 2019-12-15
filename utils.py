@@ -3,10 +3,30 @@ import logging
 import time
 from collections import namedtuple
 
-
 point = namedtuple('point', 'x y')
 circle = namedtuple('circle', 'center radius')
 rectangle = namedtuple('rectangle', 'x y w h')
+
+
+def point_to_json(self: point):
+    return {'x': int(self.x), 'y': int(self.y)}
+
+
+point.to_json = point_to_json
+
+
+def circle_to_json(self: circle):
+    return {'center': self.center.to_json(), 'radius': int(self.radius)}
+
+
+circle.to_json = circle_to_json
+
+
+def rectangle_to_json(self: rectangle):
+    return {'x': int(self.x), 'y': int(self.y), 'w': int(self.w), 'h': int(self.h)}
+
+
+rectangle.to_json = rectangle_to_json
 
 
 @contextlib.contextmanager
@@ -47,3 +67,25 @@ def join(r1: rectangle, r2: rectangle):
     y2 = max(r1.y + r1.h, r2.y + r2.h)
 
     return rectangle(x1, y1, x2 - x1, y2 - y1)
+
+
+def is_point_inside_rect(p: point, r: rectangle):
+    return all([
+        p.x > r.x,
+        p.y > r.y,
+        p.x < r.x + r.w,
+        p.y < r.y + r.h
+    ])
+
+
+def is_inside_circle(p: point, c: circle):
+    return (p.x - c.center.x) ** 2 + (p.y - c.center.y) ** 2 < c.radius ** 2
+
+
+def is_rect_inside_rect(r1: rectangle, r2: rectangle):
+    return all([
+        r1.x > r2.x,
+        r1.y > r2.y,
+        r1.x + r1.w < r2.x + r2.w,
+        r1.y + r1.h < r2.y + r2.h
+    ])
