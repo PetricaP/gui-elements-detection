@@ -115,8 +115,10 @@ def decode_predictions(scores, geometry, min_confidence):
     return rects, confidences
 
 
-def get_text_rects(padding, boxes, orig_height, orig_width, rel_x, rel_y):
+def get_text_rects(join_padding, boxes, orig_height, orig_width, rel_x, rel_y):
     results = []
+    padding_x, padding_y = join_padding
+
     # We need to rescale all the boxes with text to have the coordinates of the original image
     for (start_x, start_y, end_x, end_y) in boxes:
         start_x = int(start_x * rel_x)
@@ -124,13 +126,13 @@ def get_text_rects(padding, boxes, orig_height, orig_width, rel_x, rel_y):
         end_x = int(end_x * rel_x)
         end_y = int(end_y * rel_y)
 
-        dx = int((end_x - start_x) * padding)
-        dy = int((end_y - start_y) * padding)
+        dx = int((end_x - start_x) * padding_x)
+        dy = int((end_y - start_y) * padding_y)
 
         start_x = max(0, start_x - dx)
         start_y = max(0, start_y - dy)
-        end_x = min(orig_width, end_x + (dx * 2))
-        end_y = min(orig_height, end_y + (dy * 2))
+        end_x = min(orig_width, end_x + dx)
+        end_y = min(orig_height, end_y + dy)
 
         results.append(rectangle(start_x, start_y, end_x - start_x, end_y - start_y))
     return results
@@ -164,7 +166,7 @@ def join_overlapping_rectangles(results):
     return joined
 
 
-def detect_text(image, model_path, min_confidence, padding, join_overlapping=False):
+def detect_text(image, model_path, min_confidence, join_padding, join_overlapping=False):
     height, width = image.shape[:2]
     with timer('Read network'):
         net = cv2.dnn.readNet(model_path)
@@ -191,11 +193,11 @@ def detect_text(image, model_path, min_confidence, padding, join_overlapping=Fal
         boxes = imutils.object_detection.non_max_suppression(np.array(rects), probs=confidences)
 
     with timer('Getting text rects'):
-        results = get_text_rects(padding, boxes, height, width, rel_x, rel_y)
+        results = get_text_rects(join_padding, boxes, height, width, rel_x, rel_y)
 
         results = sorted(results, key=lambda r: r.x)
 
     if join_overlapping:
         with timer('Join overlapping rectangles'):
             results = join_overlapping_rectangles(results)
-    return image, results
+    return results

@@ -13,7 +13,7 @@ def main():
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray = cv2.medianBlur(gray, 5)
 
-    results = detect_circles(gray, 2, 20)
+    results = detect_circles(gray, 2, 50)
 
     for circ in results:
         # circle center
@@ -21,6 +21,7 @@ def main():
         # circle outline
         cv2.circle(image, circ.center, circ.radius, (255, 255, 255), 3)
     cv2.imshow("detected circles", image)
+    cv2.waitKey()
 
 
 if __name__ == '__main__':

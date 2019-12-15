@@ -9,11 +9,11 @@ title_trackbar_minRadius = 'minRadius for HoughCircles'
 title_trackbar_maxRadius = 'maxRadius for HoughCircles'
 title_window = 'HoughCircles Demo'
 
-src_org = 0
-gray_org = 0
+src_org = None
+gray_org = None
 
 
-def houghcircles_operation(val):
+def houghcircles_operation(_):
     src = src_org.copy()
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
     gray = cv.medianBlur(gray, 5)
@@ -35,7 +35,7 @@ def houghcircles_operation(val):
             cv.circle(src, center, 1, (0, 100, 100), 3)
             # circle outline
             radius = i[2]
-            cv.circle(src, center, radius, (255, 255, 255), 3)
+            cv.circle(src, center, radius, (0, 0, 0), 3)
 
     cv.imshow("detected circles", src)
 
