@@ -8,10 +8,8 @@ from imutils import object_detection
 from utils import timer, join, overlap, circle, rectangle, point
 
 
-def detect_circles(gray_image, min_radius, max_radius):
-    rows = gray_image.shape[0]
-
-    circles = cv2.HoughCircles(gray_image, cv2.HOUGH_GRADIENT, 1, rows / 8, param1=200, param2=100,
+def detect_circles(gray_image, min_radius, max_radius, param1, param2):
+    circles = cv2.HoughCircles(gray_image, cv2.HOUGH_GRADIENT, 1, 1, param1=param1, param2=param2,
                                minRadius=min_radius, maxRadius=max_radius)
 
     results = []
