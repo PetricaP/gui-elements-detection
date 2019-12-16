@@ -1,0 +1,706 @@
+{
+  "buttons": [
+    {
+      "text_rectangle": {
+        "x": 457,
+        "y": 159,
+        "w": 40,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 457,
+        "y": 159,
+        "w": 165,
+        "h": 19
+      },
+      "text": [
+        [
+          457,
+          159,
+          165,
+          19
+        ],
+        "Arduino Uno ATmega328P"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 207,
+        "y": 426,
+        "w": 30,
+        "h": 11
+      },
+      "rectangle": {
+        "x": 14,
+        "y": 426,
+        "w": 429,
+        "h": 18
+      },
+      "text": [
+        [
+          14,
+          426,
+          429,
+          18
+        ],
+        "C arduino p m328p P COMS b 1152 U flashwDUsersZakDesktop"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 588,
+        "y": 312,
+        "w": 28,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 584,
+        "y": 312,
+        "w": 39,
+        "h": 19
+      },
+      "text": [
+        [
+          584,
+          312,
+          39,
+          19
+        ],
+        "Write"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 459,
+        "y": 62,
+        "w": 48,
+        "h": 15
+      },
+      "rectangle": {
+        "x": 457,
+        "y": 63,
+        "w": 165,
+        "h": 19
+      },
+      "text": [
+        [
+          457,
+          63,
+          165,
+          19
+        ],
+        "ATmega328P"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 19,
+        "y": 63,
+        "w": 39,
+        "h": 15
+      },
+      "rectangle": {
+        "x": 20,
+        "y": 63,
+        "w": 415,
+        "h": 19
+      },
+      "text": [
+        [
+          20,
+          63,
+          415,
+          19
+        ],
+        "Arduino"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 305,
+        "y": 186,
+        "w": 28,
+        "h": 13
+      },
+      "rectangle": {
+        "x": 308,
+        "y": 184,
+        "w": 129,
+        "h": 19
+      },
+      "text": [
+        [
+          308,
+          184,
+          129,
+          19
+        ],
+        "Auto writing only"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 585,
+        "y": 234,
+        "w": 30,
+        "h": 16
+      },
+      "rectangle": {
+        "x": 584,
+        "y": 234,
+        "w": 39,
+        "h": 19
+      },
+      "text": [
+        [
+          584,
+          234,
+          39,
+          19
+        ],
+        "Write"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 206,
+        "y": 187,
+        "w": 22,
+        "h": 12
+      },
+      "rectangle": {
+        "x": 196,
+        "y": 185,
+        "w": 48,
+        "h": 19
+      },
+      "text": [
+        [
+          196,
+          185,
+          48,
+          19
+        ],
+        "Go"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 567,
+        "y": 108,
+        "w": 35,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 550,
+        "y": 106,
+        "w": 71,
+        "h": 19
+      },
+      "text": [
+        [
+          550,
+          106,
+          71,
+          19
+        ],
+        "Detect"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 542,
+        "y": 313,
+        "w": 25,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 535,
+        "y": 312,
+        "w": 39,
+        "h": 19
+      },
+      "text": [
+        [
+          535,
+          312,
+          39,
+          19
+        ],
+        "Read"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 72,
+        "y": 399,
+        "w": 55,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 15,
+        "y": 398,
+        "w": 172,
+        "h": 19
+      },
+      "text": null
+    },
+    {
+      "text_rectangle": {
+        "x": 218,
+        "y": 401,
+        "w": 28,
+        "h": 13
+      },
+      "rectangle": {
+        "x": 197,
+        "y": 398,
+        "w": 71,
+        "h": 19
+      },
+      "text": [
+        [
+          197,
+          398,
+          71,
+          19
+        ],
+        "Stop"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 485,
+        "y": 260,
+        "w": 27,
+        "h": 15
+      },
+      "rectangle": {
+        "x": 483,
+        "y": 261,
+        "w": 41,
+        "h": 18
+      },
+      "text": [
+        [
+          483,
+          261,
+          41,
+          18
+        ],
+        "xDE"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 173,
+        "y": 162,
+        "w": 27,
+        "h": 12
+      },
+      "rectangle": {
+        "x": 20,
+        "y": 159,
+        "w": 386,
+        "h": 18
+      },
+      "text": [
+        [
+          20,
+          159,
+          386,
+          18
+        ],
+        "DUsersZak Desktop program hex"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 540,
+        "y": 234,
+        "w": 30,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 535,
+        "y": 234,
+        "w": 39,
+        "h": 19
+      },
+      "text": [
+        [
+          535,
+          234,
+          39,
+          19
+        ],
+        "Read"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 18,
+        "y": 102,
+        "w": 34,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 20,
+        "y": 103,
+        "w": 133,
+        "h": 19
+      },
+      "text": [
+        [
+          20,
+          103,
+          133,
+          19
+        ],
+        "OM5"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 28,
+        "y": 237,
+        "w": 155,
+        "h": 16
+      },
+      "rectangle": {
+        "x": 20,
+        "y": 238,
+        "w": 386,
+        "h": 18
+      },
+      "text": [
+        [
+          20,
+          238,
+          386,
+          18
+        ],
+        "DUsersZak Desktop program.eep"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 351,
+        "y": 399,
+        "w": 45,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 339,
+        "y": 398,
+        "w": 71,
+        "h": 19
+      },
+      "text": [
+        [
+          339,
+          398,
+          71,
+          19
+        ],
+        "Options"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 513,
+        "y": 188,
+        "w": 49,
+        "h": 13
+      },
+      "rectangle": {
+        "x": 458,
+        "y": 187,
+        "w": 163,
+        "h": 19
+      },
+      "text": [
+        [
+          458,
+          187,
+          163,
+          19
+        ],
+        "Manager"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 306,
+        "y": 265,
+        "w": 27,
+        "h": 13
+      },
+      "rectangle": {
+        "x": 308,
+        "y": 264,
+        "w": 129,
+        "h": 19
+      },
+      "text": [
+        [
+          308,
+          264,
+          129,
+          19
+        ],
+        "Auto writing only"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 529,
+        "y": 365,
+        "w": 36,
+        "h": 12
+      },
+      "rectangle": {
+        "x": 458,
+        "y": 363,
+        "w": 165,
+        "h": 19
+      },
+      "text": [
+        [
+          458,
+          363,
+          165,
+          19
+        ],
+        "Bit selector"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 164,
+        "y": 101,
+        "w": 34,
+        "h": 16
+      },
+      "rectangle": {
+        "x": 161,
+        "y": 103,
+        "w": 133,
+        "h": 18
+      },
+      "text": [
+        [
+          161,
+          103,
+          133,
+          18
+        ],
+        "115200"
+      ]
+    }
+  ],
+  "check_buttons": [
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 20,
+        "y": 364,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 532,
+        "y": 263,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 20,
+        "y": 318,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 164,
+        "y": 318,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 20,
+        "y": 341,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": {
+        "x": 175,
+        "y": 334,
+        "w": 36,
+        "h": 18
+      },
+      "rectangle": {
+        "x": 164,
+        "y": 339,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": [
+        [
+          172,
+          333,
+          36,
+          18
+        ],
+        "Do not"
+      ]
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 534,
+        "y": 341,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    }
+  ],
+  "radial_buttons": [
+    {
+      "associated_text_rect": {
+        "x": 96,
+        "y": 267,
+        "w": 29,
+        "h": 12
+      },
+      "button_circle": {
+        "center": {
+          "x": 84,
+          "y": 274
+        },
+        "radius": 7
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": {
+        "x": 40,
+        "y": 266,
+        "w": 28,
+        "h": 15
+      },
+      "button_circle": {
+        "center": {
+          "x": 28,
+          "y": 274
+        },
+        "radius": 7
+      },
+      "is_checked": true,
+      "text": null
+    },
+    {
+      "associated_text_rect": {
+        "x": 39,
+        "y": 187,
+        "w": 28,
+        "h": 14
+      },
+      "button_circle": {
+        "center": {
+          "x": 28,
+          "y": 196
+        },
+        "radius": 7
+      },
+      "is_checked": true,
+      "text": [
+        [
+          37,
+          186,
+          28,
+          14
+        ],
+        "Write"
+      ]
+    },
+    {
+      "associated_text_rect": {
+        "x": 95,
+        "y": 186,
+        "w": 31,
+        "h": 15
+      },
+      "button_circle": {
+        "center": {
+          "x": 84,
+          "y": 196
+        },
+        "radius": 7
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": {
+        "x": 152,
+        "y": 266,
+        "w": 32,
+        "h": 14
+      },
+      "button_circle": {
+        "center": {
+          "x": 142,
+          "y": 274
+        },
+        "radius": 7
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": {
+        "x": 151,
+        "y": 188,
+        "w": 31,
+        "h": 13
+      },
+      "button_circle": {
+        "center": {
+          "x": 142,
+          "y": 196
+        },
+        "radius": 7
+      },
+      "is_checked": false,
+      "text": null
+    }
+  ]
+}

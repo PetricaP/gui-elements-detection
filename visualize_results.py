@@ -4,16 +4,10 @@ import json
 import cv2
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('image_path', help='Path to image which generated the results')
-    parser.add_argument('results_path', help='Path to generated json file')
-    args = parser.parse_args()
+def visualize_results(image_path, results_path):
+    result_image = cv2.imread(image_path)
 
-    image = cv2.imread(args.image_path)
-    result_image = image.copy()
-
-    with open(args.results_path, 'r') as file:
+    with open(results_path, 'r') as file:
         results = json.load(file)
         for button in results['buttons']:
             rect = button['rectangle']
@@ -32,8 +26,23 @@ def main():
             cv2.circle(result_image, (circ['center']['x'], circ['center']['y']),
                        circ['radius'], color, 2)
 
+    return result_image
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('image_path', help='Path to image which generated the results')
+    parser.add_argument('results_path', help='Path to generated json file')
+    parser.add_argument('--save', help='Save the resulting image to this path')
+    args = parser.parse_args()
+
+    result_image = visualize_results(args.image_path, args.results_path)
+
     cv2.imshow("Result", result_image)
     cv2.waitKey()
+
+    if args.save:
+        cv2.imwrite(args.save, result_image)
 
 
 if __name__ == '__main__':

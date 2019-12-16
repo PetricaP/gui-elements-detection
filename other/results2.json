@@ -1,0 +1,245 @@
+{
+  "buttons": [
+    {
+      "text_rectangle": {
+        "x": 243,
+        "y": 307,
+        "w": 38,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 244,
+        "y": 307,
+        "w": 128,
+        "h": 18
+      },
+      "text": [
+        [
+          244,
+          307,
+          128,
+          18
+        ],
+        "sample Input Box"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 83,
+        "y": 333,
+        "w": 41,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 14,
+        "y": 332,
+        "w": 198,
+        "h": 18
+      },
+      "text": [
+        [
+          14,
+          332,
+          198,
+          18
+        ],
+        "MondayJanuary 6.2014 vr"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 294,
+        "y": 52,
+        "w": 28,
+        "h": 17
+      },
+      "rectangle": {
+        "x": 294,
+        "y": 54,
+        "w": 39,
+        "h": 17
+      },
+      "text": [
+        [
+          294,
+          54,
+          39,
+          17
+        ],
+        "Two"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 29,
+        "y": 388,
+        "w": 75,
+        "h": 15
+      },
+      "rectangle": {
+        "x": 20,
+        "y": 383,
+        "w": 96,
+        "h": 26
+      },
+      "text": [
+        [
+          20,
+          383,
+          96,
+          26
+        ],
+        "Sample Button"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 300,
+        "y": 131,
+        "w": 33,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 259,
+        "y": 132,
+        "w": 118,
+        "h": 19
+      },
+      "text": [
+        [
+          259,
+          132,
+          118,
+          19
+        ],
+        "3ample Combo"
+      ]
+    },
+    {
+      "text_rectangle": {
+        "x": 337,
+        "y": 52,
+        "w": 36,
+        "h": 17
+      },
+      "rectangle": {
+        "x": 335,
+        "y": 54,
+        "w": 38,
+        "h": 17
+      },
+      "text": [
+        [
+          335,
+          54,
+          38,
+          17
+        ],
+        "Three"
+      ]
+    }
+  ],
+  "check_buttons": [
+    {
+      "associated_text_rect": {
+        "x": 311,
+        "y": 376,
+        "w": 35,
+        "h": 14
+      },
+      "rectangle": {
+        "x": 307,
+        "y": 380,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": true,
+      "text": [
+        [
+          308,
+          375,
+          35,
+          14
+        ],
+        "JISTVS"
+      ]
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 139,
+        "y": 390,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": true,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 307,
+        "y": 344,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    },
+    {
+      "associated_text_rect": null,
+      "rectangle": {
+        "x": 307,
+        "y": 362,
+        "w": 11,
+        "h": 11
+      },
+      "is_checked": false,
+      "text": null
+    }
+  ],
+  "radial_buttons": [
+    {
+      "associated_text_rect": {
+        "x": 270,
+        "y": 193,
+        "w": 32,
+        "h": 15
+      },
+      "button_circle": {
+        "center": {
+          "x": 264,
+          "y": 200
+        },
+        "radius": 7
+      },
+      "is_checked": true,
+      "text": [
+        [
+          267,
+          192,
+          32,
+          15
+        ],
+        "Radio"
+      ]
+    },
+    {
+      "associated_text_rect": {
+        "x": 267,
+        "y": 218,
+        "w": 35,
+        "h": 14
+      },
+      "button_circle": {
+        "center": {
+          "x": 264,
+          "y": 226
+        },
+        "radius": 7
+      },
+      "is_checked": false,
+      "text": null
+    }
+  ]
+}
