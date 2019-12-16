@@ -86,90 +86,91 @@ class Application(tk.Frame):
             self._input_image_canvas.create_image(5, 5, anchor=tk.NW, image=self._image)
 
         # This frame will hold all of the widgets on the right side of the gui
-        self._widget_frame = tk.Frame(master=self, bg='#555555')
-        self._widget_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=1)
+        widget_frame = tk.Frame(master=self, bg='#555555')
+        widget_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=1)
 
         # The entry for the image path to be loaded and displayed, used as input to the analyzer
         self._image_path_entry_var = tk.StringVar()
         self._image_path_entry_var.set(image_path)
 
-        self._image_path_label_frame = tk.LabelFrame(self._widget_frame, text='Image Path', bg='#666666', fg='#cccccc')
-        self._image_path_label_frame.grid(row=0, column=0, sticky=tk.W, padx=10, pady=10)
+        image_path_label_frame = tk.LabelFrame(widget_frame, text='Image Path', bg='#666666', fg='#cccccc')
+        image_path_label_frame.grid(row=0, column=0, sticky=tk.W, padx=10, pady=10)
 
-        self._image_path_entry = tk.Entry(self._image_path_label_frame, textvariable=self._image_path_entry_var,
-                                          width=60)
-        self._image_path_entry.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
+        tk.Entry(image_path_label_frame, textvariable=self._image_path_entry_var, width=60).grid(row=0, column=0,
+                                                                                                 sticky=tk.W, ipadx=5,
+                                                                                                 ipady=5, padx=5,
+                                                                                                 pady=5)
 
-        self._load_image_button = tk.Button(self._image_path_label_frame, text='Choose Image',
-                                            command=self.choose_image,
-                                            bg='#222222', fg='#ffffff')
-        self._load_image_button.grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
+        tk.Button(image_path_label_frame, text='Choose Image', command=self.choose_image, bg='#222222',
+                  fg='#ffffff').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
 
         # The entry for the path of the DNN model to use
-        self._model_path_label_frame = tk.LabelFrame(self._widget_frame, text='DNN trained network path', bg='#666666',
-                                                     fg='#cccccc')
-        self._model_path_label_frame.grid(row=1, column=0, sticky=tk.W, padx=10, pady=10)
+        model_path_label_frame = tk.LabelFrame(widget_frame, text='DNN trained network path', bg='#666666',
+                                               fg='#cccccc')
+        model_path_label_frame.grid(row=1, column=0, sticky=tk.W, padx=10, pady=10)
 
         self._model_path_entry_var = tk.StringVar()
         self._model_path_entry_var.set(model_path)
 
-        self._model_path_entry = tk.Entry(self._model_path_label_frame, textvariable=self._model_path_entry_var,
-                                          width=60)
-        self._model_path_entry.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
+        tk.Entry(model_path_label_frame, textvariable=self._model_path_entry_var, width=60).grid(row=0, column=0,
+                                                                                                 sticky=tk.W,
+                                                                                                 ipadx=5, ipady=5,
+                                                                                                 padx=5, pady=5)
 
-        self._model_image_button = tk.Button(self._model_path_label_frame, text='Choose PB file',
-                                             command=self.choose_model, bg='#222222', fg='#ffffff')
-        self._model_image_button.grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
+        tk.Button(model_path_label_frame, text='Choose PB file',
+                  command=self.choose_model, bg='#222222', fg='#ffffff').grid(row=1, column=0, sticky=tk.W, ipadx=5,
+                                                                              ipady=5, padx=5, pady=5)
 
         # The entry for the path where the resulting json file will be saved
-        self._results_path_label_frame = tk.LabelFrame(self._widget_frame, text='Path to the output json file',
-                                                       bg='#666666',
-                                                       fg='#cccccc')
-        self._results_path_label_frame.grid(row=2, column=0, sticky=tk.W, padx=10, pady=10)
+        results_path_label_frame = tk.LabelFrame(widget_frame,
+                                                 text='Path to the output json file',
+                                                 bg='#666666',
+                                                 fg='#cccccc')
+        results_path_label_frame.grid(row=2, column=0, sticky=tk.W, padx=10, pady=10)
 
         self._results_path_entry_var = tk.StringVar()
         self._results_path_entry_var.set(output_path)
 
-        self._results_path_entry = tk.Entry(self._results_path_label_frame, textvariable=self._results_path_entry_var,
-                                            width=60)
-        self._results_path_entry.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
+        tk.Entry(results_path_label_frame, textvariable=self._results_path_entry_var, width=60).grid(row=0, column=0,
+                                                                                                     sticky=tk.W,
+                                                                                                     ipadx=5, ipady=5,
+                                                                                                     padx=5, pady=5)
 
-        self._action_frame = tk.Frame(self._widget_frame, bg='#555555')
-        self._action_frame.grid(row=4, column=0, sticky=tk.S)
+        action_frame = tk.Frame(widget_frame, bg='#555555')
+        action_frame.grid(row=4, column=0, sticky=tk.S)
 
         # The button to RUN the gui analyzer on the image
-        self._run_button = tk.Button(self._action_frame, text='RUN',
-                                     command=self.run, bg='#222222', fg='#ffffff')
-        self._run_button.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=50)
+        tk.Button(action_frame, text='RUN', command=self.run, bg='#222222', fg='#ffffff').grid(row=0, column=0,
+                                                                                               sticky=tk.W, ipadx=5,
+                                                                                               ipady=5,
+                                                                                               padx=50)
 
         # The button to visualize the results
-        self._visualize_button = tk.Button(self._action_frame, text='Visualize results',
-                                           command=self.gui_visualize_results, bg='#222222', fg='#ffffff')
-        self._visualize_button.grid(row=0, column=1, sticky=tk.W, ipadx=5, ipady=5, padx=100)
+        tk.Button(action_frame, text='Visualize results', command=self.gui_visualize_results, bg='#222222',
+                  fg='#ffffff').grid(row=0, column=1, sticky=tk.W, ipadx=5, ipady=5, padx=100)
 
-        self._check_button_frame = tk.Frame(self._widget_frame, bg='#555555')
+        self._check_button_frame = tk.Frame(widget_frame, bg='#555555')
         self._check_button_frame.grid(row=5, column=0, sticky=tk.W, padx=10, pady=20)
 
         # The check box to specify whether the visualization image result needs to be saved
         self._visualize_image_save_check_var = tk.IntVar()
-        self._visualize_image_save_check = tk.Checkbutton(self._check_button_frame,
-                                                          text='Save the visualization image',
-                                                          variable=self._visualize_image_save_check_var,
-                                                          command=self.on_check_button)
-        self._visualize_image_save_check.grid(row=0, column=0, sticky=tk.W)
+        tk.Checkbutton(self._check_button_frame,
+                       text='Save the visualization image',
+                       variable=self._visualize_image_save_check_var,
+                       command=self.on_check_button).grid(row=0, column=0, sticky=tk.W)
 
         # The path for the image in which the visualization will be saved
-        self._visualize_image_save_path_label_frame = tk.LabelFrame(self._widget_frame,
-                                                                    text='Path to the image in which to save the '
-                                                                         'visualization results',
-                                                                    bg='#666666',
-                                                                    fg='#cccccc')
-        self._visualize_image_save_path_label_frame.grid(row=6, column=0, sticky=tk.W, padx=10, pady=10)
+        visualize_image_save_path_label_frame = tk.LabelFrame(widget_frame,
+                                                              text='Path to the image in which to save the '
+                                                                   'visualization results',
+                                                              bg='#666666',
+                                                              fg='#cccccc')
+        visualize_image_save_path_label_frame.grid(row=6, column=0, sticky=tk.W, padx=10, pady=10)
 
         self._visualize_image_save_path_entry_var = tk.StringVar()
         self._visualize_image_save_path_entry_var.set("results.png")
 
-        self._visualize_image_save_path_entry = tk.Entry(self._visualize_image_save_path_label_frame,
+        self._visualize_image_save_path_entry = tk.Entry(visualize_image_save_path_label_frame,
                                                          textvariable=self._visualize_image_save_path_entry_var,
                                                          width=60)
         self._visualize_image_save_path_entry.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
@@ -177,42 +178,44 @@ class Application(tk.Frame):
 
         # Debug check button
         self._debug_check_button_var = tk.IntVar()
-        self._debug_check_button = tk.Checkbutton(self._check_button_frame,
-                                                  text='Debug info',
-                                                  variable=self._debug_check_button_var)
-        self._debug_check_button.grid(row=1, column=0, sticky=tk.W, pady=10)
+        tk.Checkbutton(self._check_button_frame, text='Debug info', variable=self._debug_check_button_var) \
+            .grid(row=1, column=0, sticky=tk.W, pady=10)
 
-        self._legend_frame = tk.Frame(self._widget_frame, bg='#555555')
-        self._legend_frame.grid(row=7, sticky=tk.W, pady=10)
+        Application._setup_legend(widget_frame)
+
+    @staticmethod
+    def _setup_legend(widget_frame):
+        legend_frame = tk.Frame(widget_frame, bg='#555555')
+        legend_frame.grid(row=7, sticky=tk.W, pady=10)
 
         # The legend for the visualization tool
-        self._legend_label_frame = tk.LabelFrame(self._legend_frame, text='Visualization tool Legend')
-        self._legend_label_frame.grid(row=0, column=0, sticky=tk.W, padx=10)
+        legend_label_frame = tk.LabelFrame(legend_frame, text='Visualization tool Legend')
+        legend_label_frame.grid(row=0, column=0, sticky=tk.W, padx=10)
 
-        tk.Frame(self._legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._legend_label_frame, text='-  Button').grid(row=0, column=1, sticky=tk.W)
+        tk.Frame(legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(legend_label_frame, text='-  Button').grid(row=0, column=1, sticky=tk.W)
 
-        tk.Frame(self._legend_label_frame, bg='#0000ff').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._legend_label_frame, text='-  Checked Check Button').grid(row=1, column=1, sticky=tk.W)
+        tk.Frame(legend_label_frame, bg='#0000ff').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(legend_label_frame, text='-  Checked Check Button').grid(row=1, column=1, sticky=tk.W)
 
-        tk.Frame(self._legend_label_frame, bg='#6464ff').grid(row=2, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._legend_label_frame, text='-  Unchecked Check Button').grid(row=2, column=1, sticky=tk.W)
+        tk.Frame(legend_label_frame, bg='#6464ff').grid(row=2, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(legend_label_frame, text='-  Unchecked Check Button').grid(row=2, column=1, sticky=tk.W)
 
-        tk.Frame(self._legend_label_frame, bg='#ff6400').grid(row=3, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._legend_label_frame, text='-  Checked Radial Button').grid(row=3, column=1, sticky=tk.W)
+        tk.Frame(legend_label_frame, bg='#ff6400').grid(row=3, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(legend_label_frame, text='-  Checked Radial Button').grid(row=3, column=1, sticky=tk.W)
 
-        tk.Frame(self._legend_label_frame, bg='#ffdc00').grid(row=4, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._legend_label_frame, text='-  Unhecked Radial Button').grid(row=4, column=1, sticky=tk.W)
+        tk.Frame(legend_label_frame, bg='#ffdc00').grid(row=4, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(legend_label_frame, text='-  Unhecked Radial Button').grid(row=4, column=1, sticky=tk.W)
 
         # The legend for debug info
-        self._debug_legend_label_frame = tk.LabelFrame(self._legend_frame, text='Debug info legend')
-        self._debug_legend_label_frame.grid(row=0, column=1, sticky=tk.N, padx=20)
+        debug_legend_label_frame = tk.LabelFrame(legend_frame, text='Debug info legend')
+        debug_legend_label_frame.grid(row=0, column=1, sticky=tk.N, padx=20)
 
-        tk.Frame(self._debug_legend_label_frame, bg='#690000').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._debug_legend_label_frame, text='-  Rectangle').grid(row=0, column=1, sticky=tk.W)
+        tk.Frame(debug_legend_label_frame, bg='#690000').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(debug_legend_label_frame, text='-  Rectangle').grid(row=0, column=1, sticky=tk.W)
 
-        tk.Frame(self._debug_legend_label_frame, bg='#006969').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(self._debug_legend_label_frame, text='-  Text rectangle').grid(row=1, column=1, sticky=tk.W)
+        tk.Frame(debug_legend_label_frame, bg='#006969').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(debug_legend_label_frame, text='-  Text rectangle').grid(row=1, column=1, sticky=tk.W)
 
     def choose_image(self):
         image_path = filedialog.askopenfilename(initialdir='./test_images', title="Select input image")
