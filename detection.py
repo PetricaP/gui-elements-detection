@@ -241,6 +241,9 @@ def is_checked(image_rect, wanted_ratio=0.7):
     return checked
 
 
+NOISE_CHARS = ',.?! []'
+
+
 def apply_ocr_on_rectangle(image, rect, padding):
     padding_x, padding_y = padding
 
@@ -265,13 +268,8 @@ def apply_ocr_on_rectangle(image, rect, padding):
     text = pytesseract.image_to_string(roi, config=config)
 
     if text:
-        admissible_chars = ',.?! '
-        char_set = set(list(text))
-        for c in char_set:
-            if not c.isalnum() and c not in list(admissible_chars):
-                text = text.replace(c, "")
-        text = text.strip(admissible_chars)
-        return rectangle(start_x, start_y, w, h), text
+        text = text.strip(NOISE_CHARS)
+        return text
     else:
         return None
 

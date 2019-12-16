@@ -19,8 +19,11 @@ def main():
     processed = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
     rects = detect_rectangles(processed, 50, 0.0)
+    for rect in rects:
+        cv2.rectangle(image, (rect.x, rect.y), (rect.x + rect.w, rect.y + rect.h), (0, 0, 255), 2)
+
     net_results = detect_text(image, args.model_path, 0.1)
-    text_rects = join_padded_rectangles(net_results, (0.3, 0.05), image.shape[:2])
+    text_rects = join_padded_rectangles(net_results, (0.05, 0.05), image.shape[:2])
 
     results = detect_check_buttons(gray, rects, text_rects)
 
@@ -29,7 +32,7 @@ def main():
 
     for check_button in results:
         rect = check_button['rectangle']
-        cv2.rectangle(image, (rect['x'], rect['y']), (rect['x'] + rect['w'], rect['y'] + rect['h']), (255, 0, 0), 2)
+        cv2.rectangle(image, (rect['x'], rect['y']), (rect['x'] + rect['w'], rect['y'] + rect['h']), (0, 255, 0), 2)
 
     print(json.dumps(results, indent=4))
     print(len(results))

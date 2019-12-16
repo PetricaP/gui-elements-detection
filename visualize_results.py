@@ -4,8 +4,21 @@ import json
 import cv2
 
 
-def visualize_results(image_path, results_path):
+def visualize_results(image_path, results_path, debug=False):
     result_image = cv2.imread(image_path)
+
+    if debug:
+        with open('debug.json', 'r') as file:
+            debug_info = json.load(file)
+
+            for rect in debug_info['rectangles']:
+                cv2.rectangle(result_image, (rect['x'], rect['y']),
+                              (rect['x'] + rect['w'], rect['y'] + rect['h']), (0, 0, 105), 2)
+
+            for text_rect in debug_info['texts']:
+                rect = text_rect['rectangle']
+                cv2.rectangle(result_image, (rect['x'], rect['y']),
+                              (rect['x'] + rect['w'], rect['y'] + rect['h']), (105, 105, 0), 2)
 
     with open(results_path, 'r') as file:
         results = json.load(file)
