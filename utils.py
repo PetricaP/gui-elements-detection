@@ -29,6 +29,13 @@ def rectangle_to_json(self: rectangle):
 rectangle.to_json = rectangle_to_json
 
 
+def rectangle_from_json(json_rect):
+    return rectangle(json_rect['x'], json_rect['y'], json_rect['w'], json_rect['h'])
+
+
+rectangle.from_json = rectangle_from_json
+
+
 @contextlib.contextmanager
 def timer(operation_name):
     old = time.time()
