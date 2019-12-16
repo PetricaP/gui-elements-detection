@@ -115,7 +115,7 @@ class Application(tk.Frame):
         self._model_image_button.grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
 
         # The entry for the path where the resulting json file will be saved
-        self._results_path_label_frame = tk.LabelFrame(self._widget_frame, text='DNN trained network path',
+        self._results_path_label_frame = tk.LabelFrame(self._widget_frame, text='Path to the output json file',
                                                        bg='#666666',
                                                        fg='#cccccc')
         self._results_path_label_frame.grid(row=2, column=0, sticky=tk.W, padx=10, pady=10)
@@ -164,27 +164,16 @@ class Application(tk.Frame):
 
     def choose_image(self):
         entry_image_path = self._image_path_entry_var.get()
-        if not entry_image_path:
-            image_path = filedialog.askopenfilename(initialdir='./test_images', title="Select input image")
-            if image_path:
-                try:
-                    self._image = tk.PhotoImage(file=image_path)
-                    self._input_image_canvas.create_image(5, 5, anchor=tk.NW, image=self._image)
-                except Exception:
-                    cv2.imshow("Input image", cv2.imread(image_path))
-        else:
-            image_path = entry_image_path
+
+        image_path = filedialog.askopenfilename(initialdir='./test_images', title="Select input image")
+        if image_path:
             try:
                 self._image = tk.PhotoImage(file=image_path)
                 self._input_image_canvas.create_image(5, 5, anchor=tk.NW, image=self._image)
             except Exception:
-                try:
-                    cv2.imshow("Input image", cv2.imread(image_path))
-                except Exception:
-                    # TODO: Show popup error message
-                    return
+                cv2.imshow("Input image", cv2.imread(image_path))
 
-        self._image_path_entry_var.set(entry_image_path)
+        self._image_path_entry_var.set(image_path)
 
     def choose_model(self):
         entry_model_path = self._model_path_entry_var.get()
