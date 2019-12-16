@@ -148,8 +148,8 @@ def apply_padding(boxes, join_padding, original_dimensions):
         start_x = max(0, start_x - dx)
         start_y = max(0, start_y - dy)
 
-        end_x = min(orig_width, start_x + w + dx)
-        end_y = min(orig_height, start_y + h + dy)
+        end_x = min(orig_width, start_x + w + 2 * dx)
+        end_y = min(orig_height, start_y + h + 2 * dy)
 
         results.append(rectangle(start_x, start_y, end_x - start_x, end_y - start_y))
     return results
@@ -387,7 +387,7 @@ def detect_radial_buttons(gray, text_rects):
     for rect, circ in first_results:
         image_rect = gray[circ.center.y - circ.radius: circ.center.y + circ.radius,
                      circ.center.x - circ.radius: circ.center.x + circ.radius]
-        checked = is_checked(image_rect)
+        checked = is_checked(image_rect, 0.75)
 
         results.append({
             'associated_text_rect': rect.to_json(),

@@ -9,7 +9,7 @@ from utils import rectangle
 
 
 def analyze_image(image, model_path):
-    net_results = detect_text(image, model_path, 0.8)
+    net_results = detect_text(image, model_path, 0.1)
 
     text_rects = join_padded_rectangles(net_results, (0.05, 0.05), image.shape[:2])
 
