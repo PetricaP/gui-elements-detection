@@ -162,11 +162,41 @@ class Application(tk.Frame):
         self._visualize_image_save_path_entry.grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
         self._visualize_image_save_path_entry['state'] = 'disabled'
 
-    def choose_image(self):
-        entry_image_path = self._image_path_entry_var.get()
+        # The legend for the visualization tool
+        self._legend_label_frame = tk.LabelFrame(self._widget_frame, text='Visualization tool Legend')
+        self._legend_label_frame.grid(row=8, sticky=tk.S, padx=10, pady=10)
 
+        tk.Frame(self._legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(self._legend_label_frame, text='-  Button').grid(row=0, column=1, sticky=tk.W)
+
+        tk.Frame(self._legend_label_frame, bg='#0000ff').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(self._legend_label_frame, text='-  Checked Check Button').grid(row=1, column=1, sticky=tk.W)
+
+        tk.Frame(self._legend_label_frame, bg='#6464ff').grid(row=2, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(self._legend_label_frame, text='-  Unchecked Check Button').grid(row=2, column=1, sticky=tk.W)
+
+        tk.Frame(self._legend_label_frame, bg='#ff6400').grid(row=3, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(self._legend_label_frame, text='-  Checked Radial Button').grid(row=3, column=1, sticky=tk.W)
+
+        tk.Frame(self._legend_label_frame, bg='#ffdc00').grid(row=4, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        tk.Label(self._legend_label_frame, text='-  Unhecked Radial Button').grid(row=4, column=1, sticky=tk.W)
+
+        # tk.Frame(self._legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        # tk.Label(self._legend_label_frame, text='-  Button', bg='#666666', fg='#ffffff').grid(row=0, column=1,
+        #                                                                                       sticky=tk.E)
+        #
+        # tk.Frame(self._legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        # tk.Label(self._legend_label_frame, text='-  Button', bg='#666666', fg='#ffffff').grid(row=0, column=1,
+        #                                                                                       sticky=tk.E)
+        #
+        # tk.Frame(self._legend_label_frame, bg='#00ff00').grid(row=0, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
+        # tk.Label(self._legend_label_frame, text='-  Button', bg='#666666', fg='#ffffff').grid(row=0, column=1,
+        #                                                                                       sticky=tk.E)
+
+    def choose_image(self):
         image_path = filedialog.askopenfilename(initialdir='./test_images', title="Select input image")
         if image_path:
+            # noinspection PyBroadException
             try:
                 self._image = tk.PhotoImage(file=image_path)
                 self._input_image_canvas.create_image(5, 5, anchor=tk.NW, image=self._image)
