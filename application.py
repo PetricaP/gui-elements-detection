@@ -1,4 +1,5 @@
 import json
+import os
 import tkinter as tk
 from tkinter import filedialog
 
@@ -104,7 +105,7 @@ class Application(tk.Frame):
         tk.Button(image_path_label_frame, text='Choose Image', command=self.choose_image, bg='#222222',
                   fg='#ffffff').grid(row=1, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5, pady=5)
 
-        # The entry for the path of the DNN model to use
+        # The entry for the path of the DNN model to usef
         model_path_label_frame = tk.LabelFrame(widget_frame, text='DNN trained network path', bg='#666666',
                                                fg='#cccccc')
         model_path_label_frame.grid(row=1, column=0, sticky=tk.W, padx=10, pady=10)
@@ -205,7 +206,7 @@ class Application(tk.Frame):
         tk.Label(legend_label_frame, text='-  Checked Radial Button').grid(row=3, column=1, sticky=tk.W)
 
         tk.Frame(legend_label_frame, bg='#ffdc00').grid(row=4, column=0, sticky=tk.W, ipadx=5, ipady=5, padx=5)
-        tk.Label(legend_label_frame, text='-  Unhecked Radial Button').grid(row=4, column=1, sticky=tk.W)
+        tk.Label(legend_label_frame, text='-  Unchecked Radial Button').grid(row=4, column=1, sticky=tk.W)
 
         # The legend for debug info
         debug_legend_label_frame = tk.LabelFrame(legend_frame, text='Debug info legend')
@@ -256,4 +257,9 @@ class Application(tk.Frame):
         cv2.imshow("Result", result_image)
 
         if self._visualize_image_save_check_var.get():
-            cv2.imwrite(self._visualize_image_save_path_entry_var.get(), result_image)
+            output_image = self._visualize_image_save_path_entry_var.get()
+            if self._debug_check_button_var.get():
+                base, ext = os.path.splitext(output_image)
+                output_image = base + '_debug' + ext
+
+            cv2.imwrite(output_image, result_image)
