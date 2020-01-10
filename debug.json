@@ -1,0 +1,123 @@
+{
+  "rectangles": [
+    {
+      "x": 34,
+      "y": 134,
+      "w": 432,
+      "h": 11
+    },
+    {
+      "x": 424,
+      "y": 353,
+      "w": 61,
+      "h": 19
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "w": 484,
+      "h": 381
+    }
+  ],
+  "texts": [
+    {
+      "text": "ait while Setup installs Dupe Eliminator for",
+      "rectangle": {
+        "x": 65,
+        "y": 52,
+        "w": 173,
+        "h": 13
+      }
+    },
+    {
+      "text": "Setup -",
+      "rectangle": {
+        "x": 32,
+        "y": 7,
+        "w": 36,
+        "h": 14
+      }
+    },
+    {
+      "text": "\u2018Cancel",
+      "rectangle": {
+        "x": 431,
+        "y": 353,
+        "w": 36,
+        "h": 12
+      }
+    },
+    {
+      "text": "Please",
+      "rectangle": {
+        "x": 27,
+        "y": 52,
+        "w": 33,
+        "h": 14
+      }
+    },
+    {
+      "text": "install",
+      "rectangle": {
+        "x": 10,
+        "y": 327,
+        "w": 27,
+        "h": 13
+      }
+    },
+    {
+      "text": "p - Dupe Eliminator for iTunes 16.0",
+      "rectangle": {
+        "x": 60,
+        "y": 5,
+        "w": 168,
+        "h": 15
+      }
+    },
+    {
+      "text": "Extracting fles\nlb\\smtp jar",
+      "rectangle": {
+        "x": 24,
+        "y": 99,
+        "w": 77,
+        "h": 26
+      }
+    },
+    {
+      "text": "- computer,",
+      "rectangle": {
+        "x": 344,
+        "y": 53,
+        "w": 50,
+        "h": 12
+      }
+    },
+    {
+      "text": "Installin",
+      "rectangle": {
+        "x": 16,
+        "y": 35,
+        "w": 41,
+        "h": 14
+      }
+    },
+    {
+      "text": "yn your.",
+      "rectangle": {
+        "x": 314,
+        "y": 54,
+        "w": 31,
+        "h": 11
+      }
+    },
+    {
+      "text": "or iTunes o",
+      "rectangle": {
+        "x": 264,
+        "y": 53,
+        "w": 45,
+        "h": 12
+      }
+    }
+  ]
+}

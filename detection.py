@@ -69,6 +69,7 @@ def detect_rectangles(image, area_thresh, coef, approximation_type=cv2.CHAIN_APP
             x, y, w, h = cv2.boundingRect(approx)
             results.add(rectangle(x, y, w, h))
 
+    #delete duplicates from results
     to_remove = set()
     for rect1, rect2 in itertools.combinations(results, 2):
         if rect1 not in to_remove and \
@@ -332,7 +333,7 @@ def detect_buttons(image, rects, text_rects):
 
             results.append({
                 'text_rectangle': text_rect.to_json(),
-                'rectangle': rect.to_json(),
+                'rectangle': rect.to_json()
             })
     return results
 
@@ -361,6 +362,7 @@ def detect_check_buttons(gray, rects, text_rects):
             processed_squares.add(square)
 
     results = []
+
     for rect, square in first_results:
         image_rect = gray[square.y: square.y + square.h,
                      square.x: square.x + square.w]

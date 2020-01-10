@@ -1,7 +1,9 @@
 import json
 import os
+import sys
 import tkinter as tk
 from tkinter import filedialog
+import logging as log
 
 import cv2
 
@@ -9,6 +11,9 @@ from detection import detect_rectangles, detect_text, join_padded_rectangles, de
     detect_radial_buttons, apply_ocr_on_rectangle, apply_ocr_on_rects
 from utils import rectangle
 from visualize_results import visualize_results
+
+FORMAT = '[%(asctime)s] [%(levelname)s] : %(message)s'
+log.basicConfig(stream=sys.stdout, level=log.DEBUG, format=FORMAT)
 
 
 def analyze_image(image, model_path, debug=False):
@@ -34,12 +39,15 @@ def analyze_image(image, model_path, debug=False):
 
     buttons = detect_buttons(image, rectangles, text_rects)
     results['buttons'] = buttons
+    log.info("Completed detect buttons function")
 
     check_buttons = detect_check_buttons(gray, rectangles, text_rects)
     results['check_buttons'] = check_buttons
+    log.info("Completed detect check buttons function")
 
     radial_buttons = detect_radial_buttons(gray, text_rects)
     results['radial_buttons'] = radial_buttons
+    log.info("Completed detect radial buttons function")
 
     processed_text_rects = []
     for button in results['buttons']:
@@ -49,6 +57,7 @@ def analyze_image(image, model_path, debug=False):
         text = apply_ocr_on_rectangle(image, text_rect, (0.0, 0.0))
 
         button['text'] = text
+    log.info("Applying ocr on buttons finished")
 
     for check_button in results['check_buttons']:
         text_rect = check_button['associated_text_rect']
@@ -62,6 +71,7 @@ def analyze_image(image, model_path, debug=False):
             text = None
 
         check_button['text'] = text
+    log.info("Applying ocr on check buttons finished")
 
     for radial_button in radial_buttons:
         text_rect = rectangle.from_json(radial_button['associated_text_rect'])
@@ -70,6 +80,7 @@ def analyze_image(image, model_path, debug=False):
         text = apply_ocr_on_rectangle(image, text_rect, (0.1, 0.1))
 
         radial_button['text'] = text
+    log.info("Applying ocr on radial buttons finished")
 
     return results
 
@@ -184,6 +195,10 @@ class Application(tk.Frame):
 
         Application._setup_legend(widget_frame)
 
+        # progress var
+        self.run_progress_var = tk.DoubleVar()
+        self.run_progress_var.set(20)
+
     @staticmethod
     def _setup_legend(widget_frame):
         legend_frame = tk.Frame(widget_frame, bg='#555555')
@@ -244,11 +259,26 @@ class Application(tk.Frame):
             self._visualize_image_save_path_entry['state'] = 'disabled'
 
     def run(self):
-        image = cv2.imread(self._image_path_entry_var.get())
-        results = analyze_image(image, self._model_path_entry_var.get(), self._debug_check_button_var.get())
+        from tkinter import messagebox
+        try:
+            image = cv2.imread(self._image_path_entry_var.get())
+            height, width, _ = image.shape
+            if height > 1000 or width > 1000:
+                log.info("Resizing image (width or height > 1000)")
+                scale_percent = 500 / max(height, width)
+                print(scale_percent)
+                width = int(width * scale_percent)
+                height = int(height * scale_percent)
+                dim = (width, height)
+                image = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+            results = analyze_image(image, self._model_path_entry_var.get(), self._debug_check_button_var.get())
 
-        with open(self._results_path_entry_var.get(), 'w') as file:
-            file.write(json.dumps(results, indent=2))
+            with open(self._results_path_entry_var.get(), 'w') as file:
+                file.write(json.dumps(results, indent=2))
+        except cv2.error:
+            messagebox.showinfo("Run error", "Could not find pb model")
+        except AttributeError:
+            messagebox.showinfo("Run error", "Could not find image path")
 
     def gui_visualize_results(self):
         result_image = visualize_results(self._image_path_entry_var.get(), self._results_path_entry_var.get(),
