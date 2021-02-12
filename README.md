@@ -10,13 +10,13 @@
 - representation of results in a json format 
 - tool for viewing results
 
-![Pipeline](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/pipeline.png)
+![Pipeline](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/pipeline.png)
 
 
 ### GUI
 Python's tkinter library was used to create the viewing tool.
 
-![GUI](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/gui.png)
+![GUI](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/gui.png)
 
 
 ## Implementation of graphic element detection functions
@@ -30,7 +30,7 @@ Python's tkinter library was used to create the viewing tool.
 6) Elimination of rectangles with an area smaller than a specified area
 7) Elimination of redundant values
 
-![Rectangle](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/rectangle.png)
+![Rectangle](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/rectangle.png)
 
 
 #### Steps for detection of text-containing regions (EAST neural network)
@@ -46,7 +46,7 @@ presence of the text in those regions
 to remove their overlap
 6) rescaling to the original dimensions
 
-![EAST](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/text.png)
+![EAST](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/text.png)
 
 
 #### Button Detection
@@ -60,14 +60,14 @@ Button detection steps:
 partially intersects.
 4) Imposing the condition that the absolute difference between the heights of the 2 rectangles be less than half of their maximum height (condition that forces the observance of the text rectangle to be inside the contour rectangle)
 
-![Button](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/button.png)
+![Button](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/button.png)
 
 
 #### Checkbox detection
 The results obtained from the previous functions (detection of contour rectangles and 
 text detection) are used to detect checkboxes. 
 
-![Checkbox](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/checkbox_1.png)
+![Checkbox](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/checkbox_1.png)
 
 
 Checkbox detection steps:
@@ -79,14 +79,14 @@ Checkbox detection steps:
 4 * checkbox.width
 4) Determining the state of the checkbox (checked, unchecked) by applying the OTSU binary method and verifying that the black pixels represent more than 20% of the checkbox area (works for darker intensity of check mark against the background)
 
-![Checkbox](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/checkbox_2.png)
+![Checkbox](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/checkbox_2.png)
 
 
 #### Radialbox detection
 The results obtained from the previous functions (detection of contour rectangles and text detection) are used to detect radialboxes. 
 Radialbox detection steps:
 
-![Radialbox](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/radial_1.png)
+![Radialbox](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/radial_1.png)
 
 
 1) Detecting circles using the HoughCircles OpenCV method (first the original image is transformed into a Gray image, then it is blurred with the middle filter to remove noise).
@@ -95,7 +95,7 @@ Radialbox detection steps:
 4) Determining the state of the check-box (checked, unchecked) by applying the OTSU binary method and verifying that the black pixels represent more than 25% of the
 checkbox area (works for darker tick intensity than background)
 
-![Radialbox](https://github.com/PetricaP/ProiectPIMPY/blob/main/Documentation/ss/radial_2.png)
+![Radialbox](https://github.com/PetricaP/ProiectPIMPY/blob/master/Documentation/ss/radial_2.png)
 
 
 ## How to run the project
